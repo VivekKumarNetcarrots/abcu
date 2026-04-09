@@ -11,13 +11,13 @@ export class AppComponent implements OnInit {
   deferredPrompt: any;
   constructor(private swUpdate: SwUpdate) {}
   ngOnInit() {
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates.subscribe((event: any) => {
-        if (event.type === 'VERSION_READY') {
-          this.showUpdatePopup();
+    this.swUpdate.versionUpdates.subscribe((event) => {
+      if (event.type === 'VERSION_READY') {
+        if (confirm('New version available. Update now?')) {
+          this.swUpdate.activateUpdate().then(() => location.reload());
         }
-      });
-    }
+      }
+    });
     if (this.isStandalone()) {
       console.log('Running as installed app ✅');
     } else {
@@ -40,7 +40,9 @@ export class AppComponent implements OnInit {
   }
 
   updateApp() {
-    window.location.reload();
+    this.swUpdate.activateUpdate().then(() => {
+      window.location.reload();
+    });
   }
   isStandalone(): boolean {
     return (
