@@ -41,9 +41,15 @@ export class AppComponent implements OnInit {
 
   updateApp() {
     this.swUpdate.activateUpdate().then(() => {
+      this.hideUpdatePopup();
       window.location.reload();
     });
   }
+  hideUpdatePopup() {
+    const updateBox = document.getElementById('update-box');
+    if (updateBox) updateBox.style.display = 'none';
+  }
+
   isStandalone(): boolean {
     return (
       window.matchMedia('(display-mode: standalone)').matches ||
