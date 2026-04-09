@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
     this.swUpdate.versionUpdates.subscribe((event) => {
       if (event.type === 'VERSION_READY') {
         if (confirm('New version available. Update now?')) {
-          this.swUpdate.activateUpdate().then(() => location.reload());
+          this.showUpdatePopup();
         }
       }
     });
