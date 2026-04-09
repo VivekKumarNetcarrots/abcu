@@ -62,28 +62,126 @@
 
 .install-banner {
   position: fixed;
-  bottom: 20px;
-  left: 10px;
-  right: 10px;
-  background: #a024f2;
-  color: white;
-  padding: 12px;
-  border-radius: 12px;
-  display: none;
+  bottom: 16px;
+  left: 12px;
+  right: 12px;
+  z-index: 9999;
+}
+
+.banner-content {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 9999;
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 12px 14px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.app-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.app-info h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.app-info p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Install Button (Primary) */
+.btn.install {
+  background: linear-gradient(135deg, #6c3bff, #9f6bff);
+  color: white;
+  font-weight: 500;
+}
+
+.btn.install:hover {
+  transform: scale(1.05);
+}
+
+/* Close Button */
+.btn.close {
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+.btn.close:hover {
+  opacity: 1;
 }
 .update-box {
   position: fixed;
-  top: 20px;
-  left: 10px;
-  right: 10px;
-  background: #a024f2;
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  display: none;
-  text-align: center;
+  top: 16px;
+  left: 12px;
+  right: 12px;
   z-index: 9999;
+}
+
+.update-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #6c3bff, #8e5bff);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Update Button */
+.btn.update {
+  background: white;
+  color: #6c3bff;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 14px;
+}
+
+.btn.update:hover {
+  transform: scale(1.05);
+}
+
+.install-banner,
+.update-box {
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

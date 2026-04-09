@@ -1,15 +1,25 @@
 <ion-app>
-  <div id="install-banner" class="install-banner">
-    <div>
-      <strong>Install ABCU</strong>
-      <p>Get full app experience 🚀</p>
+  <div class="install-banner">
+    <div class="banner-content">
+      <div class="app-info">
+        <img src="assets/icon/icon-192.png" class="app-icon" />
+        <div>
+          <h4>ABCU</h4>
+          <p>Install for better experience</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn install" (click)="installApp()">Install</button>
+        <button class="btn close" (click)="dismissBanner()">✕</button>
+      </div>
     </div>
-    <button (click)="installApp()">Install</button>
-    <button (click)="dismissBanner()">✕</button>
   </div>
-  <div id="update-box" class="update-box">
-    <p>New version available 🚀</p>
-    <button (click)="updateApp()">Update</button>
+  <div class="update-box">
+    <div class="update-content">
+      <span>🚀 New version available</span>
+      <button class="btn update" (click)="updateApp()">Update</button>
+    </div>
   </div>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>
