@@ -14,7 +14,29 @@ export class AppComponent implements OnInit {
   constructor(private swUpdate: SwUpdate) {}
 
   ngOnInit() {
-    // ✅ SERVICE WORKER UPDATE (toast style trigger)
+    // =========================
+    // 📱 INSTALL EVENT (FIXED)
+    // =========================
+    window.addEventListener('beforeinstallprompt', (e: any) => {
+      console.log('Install event fired ✅');
+
+      e.preventDefault();
+
+      // ❌ don't show again if dismissed
+      if (localStorage.getItem('install_closed')) return;
+
+      this.deferredPrompt = e;
+
+      // Delay banner for better UX
+      setTimeout(() => {
+        const banner = document.getElementById('install-banner');
+        if (banner) banner.style.display = 'flex';
+      }, 3000);
+    });
+
+    // =========================
+    // 🔄 SERVICE WORKER UPDATE
+    // =========================
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates
         .pipe(
@@ -28,26 +50,39 @@ export class AppComponent implements OnInit {
         });
     }
 
-    // ✅ Detect standalone mode
+    // =========================
+    // 📲 APP INSTALLED DETECT
+    // =========================
+    window.addEventListener('appinstalled', () => {
+      console.log('App installed 🎉');
+      localStorage.setItem('install_closed', 'true');
+      this.hideBanner();
+    });
+
+    // =========================
+    // 📱 STANDALONE MODE CHECK
+    // =========================
     if (this.isStandalone()) {
       console.log('Running as installed app ✅');
       this.hideBanner();
     } else {
       console.log('Running in browser 🌐');
-
-      // Delay banner for better UX
-      setTimeout(() => {
-        this.checkInstall();
-      }, 3000);
     }
 
-    // ✅ Detect if app installed
-    window.addEventListener('appinstalled', () => {
-      localStorage.setItem('install_closed', 'true');
-      this.hideBanner();
-    });
+    // =========================
+    // 💥 FALLBACK (if Chrome blocks event)
+    // =========================
+    setTimeout(() => {
+      if (!this.deferredPrompt && !localStorage.getItem('install_closed')) {
+        console.log('Fallback banner shown ⚠️');
+        const banner = document.getElementById('install-banner');
+        if (banner) banner.style.display = 'flex';
+      }
+    }, 5000);
 
-    // ✅ Splash screen hide
+    // =========================
+    // 🌊 SPLASH SCREEN
+    // =========================
     setTimeout(() => {
       const splash = document.getElementById('splash-screen');
       if (splash) {
@@ -88,19 +123,6 @@ export class AppComponent implements OnInit {
       window.matchMedia('(display-mode: standalone)').matches ||
       (window.navigator as any).standalone === true
     );
-  }
-
-  checkInstall() {
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // 🚫 Prevent showing again if user dismissed/installed
-      if (localStorage.getItem('install_closed')) return;
-
-      e.preventDefault();
-      this.deferredPrompt = e;
-
-      const banner = document.getElementById('install-banner');
-      if (banner) banner.style.display = 'flex';
-    });
   }
 
   installApp() {
