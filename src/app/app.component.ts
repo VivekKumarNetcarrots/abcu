@@ -15,11 +15,14 @@ export class AppComponent implements OnInit {
       if (event.type === 'VERSION_READY') {
         if (confirm('New version available. Update now?')) {
           this.showUpdatePopup();
+        } else {
+          this.hideUpdatePopup();
         }
       }
     });
     if (this.isStandalone()) {
       console.log('Running as installed app ✅');
+      this.hideBanner();
     } else {
       console.log('Running in browser 🌐');
       this.checkInstall();
@@ -77,10 +80,6 @@ export class AppComponent implements OnInit {
         this.hideBanner();
       });
     }
-  }
-
-  dismissBanner() {
-    this.hideBanner();
   }
 
   hideBanner() {
