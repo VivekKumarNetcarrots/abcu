@@ -59,3 +59,31 @@
   width: 80px;
   margin-bottom: 10px;
 }
+
+.install-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 10px;
+  right: 10px;
+  background: #a024f2;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+}
+.update-box {
+  position: fixed;
+  top: 20px;
+  left: 10px;
+  right: 10px;
+  background: #a024f2;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  display: none;
+  text-align: center;
+  z-index: 9999;
+}
