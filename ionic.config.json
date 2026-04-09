@@ -1,0 +1,7 @@
+{
+  "name": "abcu",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
