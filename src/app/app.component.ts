@@ -35,12 +35,14 @@ export class AppComponent implements OnInit {
     }, 500); // small delay for smoother UX
   }
   showUpdatePopup() {
+    if (localStorage.getItem('updated')) return;
     const updateBox = document.getElementById('update-box');
     if (updateBox) updateBox.style.display = 'flex';
   }
 
   updateApp() {
     this.swUpdate.activateUpdate().then(() => {
+      localStorage.setItem('updated', 'true');
       this.hideUpdatePopup();
       window.location.reload();
     });
