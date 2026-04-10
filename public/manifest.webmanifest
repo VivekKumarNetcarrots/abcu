@@ -5,7 +5,7 @@
   "scope": "./",
   "start_url": "./",
   "background_color": "#ffffff",
-  "theme_color": "var(--ion-color-primary)",
+  "theme_color": "#0054e9",
   "orientation": "portrait",
   "prefer_related_applications": false,
   "icons": [
