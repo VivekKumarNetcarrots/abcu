@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
-import { TicTacComponent } from '../comps/tic-tac/tic-tac.component';
+import { TicTacComponent } from '../../comps/tic-tac/tic-tac.component';
 
 @Component({
   selector: 'app-tab1',
