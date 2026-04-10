@@ -1,15 +1,21 @@
 <ion-app>
   <!-- Install Banner -->
   <div id="install-banner" class="install-banner" style="display: none">
-    <span>Install ABCU for better experience 🚀</span>
-    <button class="btn install" (click)="installApp()">Install</button>
-    <button class="btn close" (click)="dismissBanner()">✕</button>
+    <div class="banner-content">
+      <span>Install ABCU for better experience 🚀 &Tab;</span>
+      <div class="actions">
+        <button class="btn install" (click)="installApp()">Install</button>
+        <button class="btn close" (click)="dismissBanner()">✕</button>
+      </div>
+    </div>
   </div>
 
   <!-- Update Popup -->
   <div id="update-box" class="update-box" style="display: none">
-    <span>🚀 New version available</span>
-    <button class="btn update" (click)="updateApp()">Update</button>
+    <div class="update-content">
+      <span>🚀 New version available</span>
+      <button class="btn update" (click)="updateApp()">Update</button>
+    </div>
   </div>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>

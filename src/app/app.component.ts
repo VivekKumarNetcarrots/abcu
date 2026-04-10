@@ -38,18 +38,20 @@ export class AppComponent implements OnInit {
     // 🔄 SERVICE WORKER UPDATE
     // =========================
     if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates
-        .pipe(
-          filter(
-            (event): event is VersionReadyEvent =>
-              event.type === 'VERSION_READY'
-          )
-        )
-        .subscribe(() => {
-          this.showUpdatePopup();
-        });
-    }
+      // listen for updates
+      this.swUpdate.versionUpdates.subscribe((event: any) => {
+        console.log('SW Event:', event);
 
+        if (event.type === 'VERSION_READY') {
+          this.showUpdatePopup();
+        }
+      });
+
+      // force periodic check
+      setInterval(() => {
+        this.swUpdate.checkForUpdate();
+      }, 30000);
+    }
     // =========================
     // 📲 APP INSTALLED DETECT
     // =========================

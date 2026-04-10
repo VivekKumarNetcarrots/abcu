@@ -23,7 +23,7 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      enabled: true, //!isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
