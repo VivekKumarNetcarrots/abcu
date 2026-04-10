@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { filter } from 'rxjs/operators';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -14,31 +13,22 @@ export class AppComponent implements OnInit {
   constructor(private swUpdate: SwUpdate) {}
 
   ngOnInit() {
-    // =========================
-    // 📱 INSTALL EVENT (FIXED)
-    // =========================
     window.addEventListener('beforeinstallprompt', (e: any) => {
-      console.log('Install event fired ✅');
+      console.log('Install event fired ');
 
       e.preventDefault();
 
-      // ❌ don't show again if dismissed
       if (localStorage.getItem('install_closed')) return;
 
       this.deferredPrompt = e;
 
-      // Delay banner for better UX
       setTimeout(() => {
         const banner = document.getElementById('install-banner');
         if (banner) banner.style.display = 'flex';
       }, 3000);
     });
 
-    // =========================
-    // 🔄 SERVICE WORKER UPDATE
-    // =========================
     if (this.swUpdate.isEnabled) {
-      // listen for updates
       this.swUpdate.versionUpdates.subscribe((event: any) => {
         console.log('SW Event:', event);
 
@@ -52,28 +42,20 @@ export class AppComponent implements OnInit {
         this.swUpdate.checkForUpdate();
       }, 30000);
     }
-    // =========================
-    // 📲 APP INSTALLED DETECT
-    // =========================
+
     window.addEventListener('appinstalled', () => {
       console.log('App installed 🎉');
       localStorage.setItem('install_closed', 'true');
       this.hideBanner();
     });
 
-    // =========================
-    // 📱 STANDALONE MODE CHECK
-    // =========================
     if (this.isStandalone()) {
-      console.log('Running as installed app ✅');
+      console.log('Running as installed app ');
       this.hideBanner();
     } else {
-      console.log('Running in browser 🌐');
+      console.log('Running in browser ');
     }
 
-    // =========================
-    // 💥 FALLBACK (if Chrome blocks event)
-    // =========================
     setTimeout(() => {
       if (!this.deferredPrompt && !localStorage.getItem('install_closed')) {
         console.log('Fallback banner shown ⚠️');
@@ -82,9 +64,6 @@ export class AppComponent implements OnInit {
       }
     }, 5000);
 
-    // =========================
-    // 🌊 SPLASH SCREEN
-    // =========================
     setTimeout(() => {
       const splash = document.getElementById('splash-screen');
       if (splash) {
@@ -94,10 +73,6 @@ export class AppComponent implements OnInit {
       }
     }, 500);
   }
-
-  // =========================
-  // 🔄 UPDATE LOGIC
-  // =========================
 
   showUpdatePopup() {
     const updateBox = document.getElementById('update-box');
@@ -115,10 +90,6 @@ export class AppComponent implements OnInit {
     const updateBox = document.getElementById('update-box');
     if (updateBox) updateBox.style.display = 'none';
   }
-
-  // =========================
-  // 📱 INSTALL LOGIC
-  // =========================
 
   isStandalone(): boolean {
     return (

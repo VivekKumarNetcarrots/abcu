@@ -13,7 +13,6 @@ import {
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
-import { isDevMode } from '@angular/core';
 import { provideServiceWorker } from '@angular/service-worker';
 defineCustomElements(window);
 

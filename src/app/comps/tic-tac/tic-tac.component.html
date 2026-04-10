@@ -1,0 +1,84 @@
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-select
+        style="
+          margin: 0;
+          padding: 0;
+          /* -webkit-transform: ; */
+          --highlight-color: rgba(0, 0, 0, 0);
+        "
+        class="ion-padding"
+        label="Tic Tac Toe"
+        [(ngModel)]="difficulty"
+        placeholder="Select Level"
+        interface="popover"
+      >
+        <ion-select-option value="easy">Easy Level</ion-select-option>
+        <ion-select-option value="medium">Medium Level</ion-select-option>
+        <ion-select-option value="hard">Hard Level</ion-select-option>
+      </ion-select>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-text-center" style="font-size: 11px">
+      Total Game <br />
+      <b>{{ gameStats.totalGame }}</b>
+    </ion-col>
+    <ion-col class="ion-text-center" style="font-size: 11px">
+      Total Win <br />
+      <b>{{ gameStats.totalWin }}</b>
+    </ion-col>
+    <ion-col class="ion-text-center" style="font-size: 11px">
+      Total Loose <br />
+      <b>{{ gameStats.totalLoose }}</b>
+    </ion-col>
+    <ion-col class="ion-text-center" style="font-size: 11px">
+      Total Draw <br />
+      <b>{{ gameStats.totalDraw }}</b></ion-col
+    >
+  </ion-row>
+  <div class="game-container">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-text color="primary">
+          <h3>Welcome Mr. <b>X</b></h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <div class="status">
+      <ng-container *ngIf="!gameService.gameOver">
+        {{ gameService.activePlayer == "X" ? "Your" : "Player" }}
+        <span class="player">{{
+          gameService.activePlayer == "X" ? "" : gameService.activePlayer
+        }}</span
+        >'s turn
+      </ng-container>
+
+      <ng-container *ngIf="gameService.gameOver">
+        <span *ngIf="gameService.winner"
+          >🎉
+          {{
+            gameService.activePlayer == "X"
+              ? "You are "
+              : gameService.activePlayer + " is"
+          }}
+          Winner!</span
+        >
+        <span *ngIf="!gameService.winner">😐 It's a draw</span>
+      </ng-container>
+    </div>
+
+    <div class="board">
+      <div
+        class="cell"
+        *ngFor="let square of gameService.getBoard"
+        (click)="onSquareClick(square)"
+      >
+        {{ square.state }}
+      </div>
+    </div>
+
+    <button class="restart" (click)="restart()">Restart Game</button>
+  </div>
+</ion-content>
