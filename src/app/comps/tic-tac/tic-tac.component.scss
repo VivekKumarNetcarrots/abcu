@@ -45,13 +45,13 @@
 .restart {
   padding: 10px 20px;
   font-size: 1rem;
-  background: #38bdf8;
+  background: var(--ion-color-primary);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   color: #000;
 
   &:hover {
-    background: #0ea5e9;
+    background: var(--ion-color-secondary);
   }
 }

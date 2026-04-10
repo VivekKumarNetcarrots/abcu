@@ -1,25 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <ion-select
+          style="
+            margin: 0;
+            padding: 0;
+            /* -webkit-transform: ; */
+            --highlight-color: rgba(0, 0, 0, 0);
+          "
+          class="ion-padding"
+          label="Tic Tac Toe"
+          [(ngModel)]="difficulty"
+          placeholder="Select Level"
+          interface="popover"
+        >
+          <ion-select-option value="easy">Easy Level</ion-select-option>
+          <ion-select-option value="medium">Medium Level</ion-select-option>
+          <ion-select-option value="hard">Hard Level</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <ion-row>
-    <ion-col>
-      <ion-select
-        style="
-          margin: 0;
-          padding: 0;
-          /* -webkit-transform: ; */
-          --highlight-color: rgba(0, 0, 0, 0);
-        "
-        class="ion-padding"
-        label="Tic Tac Toe"
-        [(ngModel)]="difficulty"
-        placeholder="Select Level"
-        interface="popover"
-      >
-        <ion-select-option value="easy">Easy Level</ion-select-option>
-        <ion-select-option value="medium">Medium Level</ion-select-option>
-        <ion-select-option value="hard">Hard Level</ion-select-option>
-      </ion-select>
-    </ion-col>
-  </ion-row>
+  <div style="margin-top: 20px"></div>
   <ion-row>
     <ion-col class="ion-text-center" style="font-size: 11px">
       Total Game <br />
