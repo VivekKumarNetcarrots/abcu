@@ -60,7 +60,7 @@ export class TicTacComponent implements OnInit {
     this.canClick = false;
     setTimeout(() => {
       this.canClick = true;
-    }, 1500);
+    }, 600);
     if (square.state || this.gameService.gameOver) return;
 
     square.state = this.gameService.activePlayer;

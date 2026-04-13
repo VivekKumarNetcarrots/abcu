@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Games</ion-title>
+    <ion-buttons slot="end">
+      <ion-button shape="round" (click)="selectedGame = null;">
+        <ion-icon name="flower-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="!selectedGame; else gameView">
+    <app-games-container
+      (onGameSelected)="onGameSelected($event)"
+    ></app-games-container>
+  </ng-container>
+
+  <ng-template #gameView>
+    <ng-container *ngComponentOutlet="selectedGame"></ng-container>
+  </ng-template>
+</ion-content>

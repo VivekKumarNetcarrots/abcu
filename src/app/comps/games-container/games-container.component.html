@@ -1,0 +1,25 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Games</ion-card-title>
+      <ion-card-subtitle
+        >Select your favourite game and enjoy</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let g of gamesList" (click)="onGameSelect(g)">
+          <ion-thumbnail slot="start">
+            <img [alt]="g.name" [src]="g.img" />
+          </ion-thumbnail>
+          <ion-note class="game-note">
+            <ion-label color="primary">{{ g.name }}</ion-label>
+            <ion-text>
+              {{ g.desc }}
+            </ion-text>
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
