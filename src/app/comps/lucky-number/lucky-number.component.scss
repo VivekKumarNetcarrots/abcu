@@ -1,8 +1,10 @@
 .odometer {
-  //   display: flex;
-  display: inline-flex;
+  display: flex;
+  margin: auto;
 }
-
+.vsking {
+  display: flex;
+}
 .digit {
   width: 32px;
   height: 48px;
@@ -10,6 +12,7 @@
   background: var(--ion-color-primary);
   padding: 2px;
   border-right: 1px solid #fff;
+  color: #fff;
 }
 
 .digit-inner {
@@ -26,4 +29,16 @@
   font-size: 36px;
   font-weight: bold;
   text-align: center;
+}
+.roll-c {
+  text-align: center;
+  .roll-btn {
+    padding: 10px 44px;
+    margin-top: 10%;
+    border-radius: 10px;
+    background: var(--ion-color-primary);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+  }
 }
