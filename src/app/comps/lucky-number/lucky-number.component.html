@@ -1,0 +1,16 @@
+<div class="vsking">
+  <div class="odometer">
+    <div class="digit" *ngFor="let d of digits; let i = index">
+      <div
+        class="digit-inner"
+        [class.no-transition]="resetting[i]"
+        [style.transform]="transforms[i]"
+      >
+        <div *ngFor="let n of rollingNumbers">{{ n }}</div>
+      </div>
+    </div>
+  </div>
+  <br />
+
+  <button (click)="setValueRandom()">Roll</button>
+</div>

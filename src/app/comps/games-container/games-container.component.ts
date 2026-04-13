@@ -16,6 +16,7 @@ import {
   IonNote,
 } from '@ionic/angular/standalone';
 import { TicTacComponent } from '../tic-tac/tic-tac.component';
+import { LuckyNumberComponent } from '../lucky-number/lucky-number.component';
 
 @Component({
   selector: 'app-games-container',
@@ -50,6 +51,14 @@ export class GamesContainerComponent {
       url: '/tic-tic/',
       component: TicTacComponent,
       id: 0,
+    },
+    {
+      name: 'Lucky Number',
+      desc: 'Know your luck.',
+      img: '/assets/gifs/num-rolls.gif',
+      url: '/lucky number/',
+      component: LuckyNumberComponent,
+      id: 1,
     },
   ];
 
