@@ -4,27 +4,19 @@
       #videoPlayer
       [src]="video.url"
       playsinline
-      autoplay
+      webkit-playsinline
+      muted
       loop
       preload="metadata"
+      (click)="togglePlay(i)"
     ></video>
 
-    <!-- Gesture Layer -->
-    <div class="gesture-layer" (click)="onTap($event, i)">
-      <div class="heart" *ngIf="video.showHeart"></div>
-    </div>
+    <!-- Loader -->
+    <div class="loader" *ngIf="video.isBuffering"></div>
 
-    <!-- Actions -->
-    <div class="actions">
-      <button (click)="like(i)">❤️</button>
-      <button>💬</button>
-      <button>🔗</button>
-    </div>
-
-    <!-- Details Panel -->
-    <div class="details-panel" [class.open]="video.showDetails">
-      <h3>{{ video.title }}</h3>
-      <p>{{ video.description }}</p>
+    <!-- Title -->
+    <div class="title">
+      {{ video.title }}
     </div>
   </div>
 </div>

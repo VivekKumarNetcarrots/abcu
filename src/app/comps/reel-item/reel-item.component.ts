@@ -6,7 +6,6 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { GestureController } from '@ionic/angular';
-import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,60 +18,78 @@ import { CommonModule } from '@angular/common';
 export class ReelItemComponent implements AfterViewInit {
   @ViewChildren('videoPlayer') videoPlayers!: QueryList<ElementRef>;
   @ViewChildren('reelItem') reelItems!: QueryList<ElementRef>;
+
   currentPlaying: HTMLVideoElement | null = null;
-  lastTap = 0;
 
   videos = [
     {
       title: 'Vid 1',
-      description: 'Video 1',
-      url: 'https://avtshare01.rz.tu-ilmenau.de/avt-vqdb-uhd-1/test_1/segments/bigbuck_bunny_8bit_15000kbps_1080p_60.0fps_h264.mp4',
-      showHeart: false,
-      showDetails: false,
+      url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      isBuffering: true,
     },
     {
       title: 'Vid 2',
-      description: 'Video 2',
-      url: 'https://avtshare01.rz.tu-ilmenau.de/avt-vqdb-uhd-1/test_1/segments/cutting_orange_tuil_15000kbps_1080p_59.94fps_h264.mp4',
-      showHeart: false,
-      showDetails: false,
+      url: 'https://www.w3schools.com/html/movie.mp4',
+      isBuffering: true,
     },
     {
       title: 'Vid 3',
-      description: 'Video 3',
-      url: 'https://avtshare01.rz.tu-ilmenau.de/avt-vqdb-uhd-1/test_1/segments/vegetables_tuil_2000kbps_720p_59.94fps_h264.mp4',
-      showHeart: false,
-      showDetails: false,
+      url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+      isBuffering: true,
     },
   ];
 
   constructor(private gestureCtrl: GestureController) {}
 
   ngAfterViewInit() {
-    this.setupObserver();
-    this.setupGestures();
+    this.videoPlayers.changes.subscribe(() => {
+      this.initReels();
+    });
+
+    setTimeout(() => {
+      this.initReels();
+    });
   }
+
+  initReels() {
+    if (!this.videoPlayers || this.videoPlayers.length === 0) return;
+
+    this.attachVideoEvents();
+    this.setupObserver();
+
+    // ✅ Force first video play
+    setTimeout(() => {
+      const first = this.videoPlayers.first.nativeElement;
+      this.playVideo(first);
+    }, 300);
+  }
+
+  // 🎥 Buffer handling
+  attachVideoEvents() {
+    this.videoPlayers.forEach((videoRef, index) => {
+      const video = videoRef.nativeElement;
+
+      video.onwaiting = () => (this.videos[index].isBuffering = true);
+      video.onplaying = () => (this.videos[index].isBuffering = false);
+      video.oncanplay = () => (this.videos[index].isBuffering = false);
+    });
+  }
+
+  // 👀 Observer
   setupObserver() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const video = entry.target as HTMLVideoElement;
-          if (entry.isIntersecting) {
-            if (this.currentPlaying && this.currentPlaying !== video) {
-              this.currentPlaying.pause();
-            }
 
-            this.currentPlaying = video;
+          if (entry.isIntersecting) {
             this.playVideo(video);
+          } else {
+            video.pause();
           }
-          // if (entry.isIntersecting) {
-          //   this.playVideo(video);
-          // } else {
-          //   video.pause();
-          // }
         });
       },
-      { threshold: 0.7 }
+      { threshold: 0.6 }
     );
 
     this.videoPlayers.forEach((videoRef) => {
@@ -80,122 +97,54 @@ export class ReelItemComponent implements AfterViewInit {
     });
   }
 
-  // 🎥 Auto Play / Pause
-  // setupObserver() {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         const video = entry.target as HTMLVideoElement;
-  //         if (entry.isIntersecting) {
-  //           if (this.currentPlaying && this.currentPlaying !== video) {
-  //             this.currentPlaying.pause();
-  //           }
+  // ▶️ Play safely
+  async playVideo(video: HTMLVideoElement) {
+    try {
+      if (this.currentPlaying && this.currentPlaying !== video) {
+        this.currentPlaying.pause();
+        this.currentPlaying.currentTime = 0;
+      }
 
-  //           this.currentPlaying = video;
-  //           this.playVideo(video);
-  //         }
-  //         // if (entry.isIntersecting) {
-  //         //   video.play();
-  //         // } else {
-  //         //   video.pause();
-  //         // }
-  //       });
-  //     },
-  //     { threshold: 0.7 }
-  //   );
+      this.currentPlaying = video;
 
-  //   this.videoPlayers.forEach((videoRef) => {
-  //     observer.observe(videoRef.nativeElement);
-  //   });
-  // }
-  playVideo(video: HTMLVideoElement) {
-    const playPromise = video.play();
+      video.muted = true;
 
-    if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        if (err.name !== 'AbortError') {
-          console.error('Video play error:', err);
-        }
-      });
+      if (video.readyState < 2) {
+        video.oncanplay = async () => {
+          await video.play().catch(() => {});
+        };
+      } else {
+        await video.play();
+      }
+
+      this.preloadNext(video);
+    } catch (err) {
+      console.log(err);
     }
   }
 
-  // 👉 Swipe gestures
-  setupGestures() {
-    this.reelItems.forEach((item, index) => {
-      const gesture = this.gestureCtrl.create({
-        el: item.nativeElement,
-        gestureName: 'reel-swipe',
-        direction: 'x',
-        onEnd: (ev) => {
-          if (ev.deltaX < -100) this.openDetails(index);
-          if (ev.deltaX > 100) this.closeDetails(index);
-        },
-      });
+  // ⚡ Preload next video
+  preloadNext(current: HTMLVideoElement) {
+    const list = this.videoPlayers.toArray();
+    const index = list.findIndex((v) => v.nativeElement === current);
 
-      gesture.enable();
-    });
-  }
-
-  // 👉 Tap / Double Tap
-  onTap(event: any, index: number) {
-    const now = Date.now();
-    const diff = now - this.lastTap;
-
-    if (diff < 300) {
-      this.handleDoubleTap(event, index);
-    } else {
-      this.togglePlay(index);
+    const next = list[index + 1];
+    if (next) {
+      const nextVideo = next.nativeElement;
+      nextVideo.preload = 'auto';
+      nextVideo.load();
     }
-
-    this.lastTap = now;
   }
 
+  // 👆 Tap → unmute
   togglePlay(index: number) {
     const video = this.videoPlayers.toArray()[index].nativeElement;
-    video.paused ? video.play() : video.pause();
-  }
 
-  handleDoubleTap(event: any, index: number) {
-    this.videos[index].showHeart = true;
-
-    setTimeout(() => {
-      this.videos[index].showHeart = false;
-    }, 800);
-
-    this.like(index);
-    this.createFloatingHeart(event);
-  }
-
-  // ❤️ Like + Haptics
-  async like(index: number) {
-    await Haptics.impact({ style: ImpactStyle.Medium });
-  }
-
-  // 💕 Floating hearts
-  createFloatingHeart(event: any) {
-    const heart = document.createElement('div');
-    heart.classList.add('floating-heart');
-
-    heart.style.left = event.pageX + 'px';
-    heart.style.top = event.pageY + 'px';
-
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 1000);
-  }
-
-  // 👉 Details Panel
-  openDetails(index: number) {
-    this.videos.forEach((v, i) => {
-      v.showDetails = i === index;
-    });
-
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeDetails(index: number) {
-    this.videos[index].showDetails = false;
-    document.body.style.overflow = 'auto';
+    if (video.muted) {
+      video.muted = false;
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
   }
 }
