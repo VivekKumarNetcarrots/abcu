@@ -2,6 +2,7 @@
   height: 100vh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  scrollbar-width: none;
 }
 
 .reel-item {
@@ -81,6 +82,11 @@ video {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  button {
+    background: rgba(0, 0, 0, 0);
+    font-size: 20px;
+    padding: 4px;
+  }
 }
 
 /* Details Panel */
