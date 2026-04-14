@@ -9,17 +9,17 @@ export const routes: Routes = [
       {
         path: 'games',
         loadComponent: () =>
-          import('../pages/games/games.page').then((m) => m.Tab1Page),
+          import('../pages/games/games.page').then((m) => m.GamesPage),
       },
       {
-        path: 'tab2',
+        path: 'reels',
         loadComponent: () =>
-          import('../pages/tab2/tab2.page').then((m) => m.Tab2Page),
+          import('../pages/reels/reels.page').then((m) => m.ReelsPage),
       },
       {
-        path: 'tab3',
+        path: 'more',
         loadComponent: () =>
-          import('../pages/tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../pages/more/more.page').then((m) => m.MorePage),
       },
       {
         path: '',

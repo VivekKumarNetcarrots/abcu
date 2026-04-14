@@ -1,0 +1,103 @@
+.reels-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.reel-item {
+  height: 100vh;
+  position: relative;
+  scroll-snap-align: start;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Gesture Layer */
+.gesture-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* ❤️ Center Heart */
+.heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: red;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pop 0.8s ease-out forwards;
+}
+
+@keyframes pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* Floating Hearts */
+.floating-heart {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background: red;
+  border-radius: 50%;
+  animation: floatUp 1s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Right Actions */
+.actions {
+  position: absolute;
+  right: 10px;
+  bottom: 100px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Details Panel */
+.details-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 5;
+  padding: 20px;
+}
+
+.details-panel.open {
+  transform: translateX(0);
+}

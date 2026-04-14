@@ -7,11 +7,11 @@ import {
 } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss'],
+  selector: 'app-more',
+  templateUrl: 'more.page.html',
+  styleUrls: ['more.page.scss'],
   imports: [IonHeader, IonToolbar, IonTitle, IonContent],
 })
-export class Tab3Page {
+export class MorePage {
   constructor() {}
 }

@@ -14,7 +14,7 @@ import { flowerOutline } from 'ionicons/icons';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-tab1',
+  selector: 'app-games',
   templateUrl: 'games.page.html',
   styleUrls: ['games.page.scss'],
   imports: [
@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
     IonIcon,
   ],
 })
-export class Tab1Page {
+export class GamesPage {
   selectedGame: any;
   constructor() {
     addIcons({ flowerOutline });

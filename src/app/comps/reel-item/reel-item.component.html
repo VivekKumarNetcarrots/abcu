@@ -1,0 +1,31 @@
+<div class="reels-container">
+  <div class="reel-item" *ngFor="let video of videos; let i = index" #reelItem>
+    <video
+      #videoPlayer
+      [src]="video.url"
+      playsinline
+      muted
+      autoplay
+      loop
+      preload="metadata"
+    ></video>
+
+    <!-- Gesture Layer -->
+    <div class="gesture-layer" (click)="onTap($event, i)">
+      <div class="heart" *ngIf="video.showHeart"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button (click)="like(i)">❤️</button>
+      <button>💬</button>
+      <button>🔗</button>
+    </div>
+
+    <!-- Details Panel -->
+    <div class="details-panel" [class.open]="video.showDetails">
+      <h3>{{ video.title }}</h3>
+      <p>{{ video.description }}</p>
+    </div>
+  </div>
+</div>
