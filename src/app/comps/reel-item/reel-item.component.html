@@ -1,22 +1,17 @@
-<div class="reels-container">
-  <div class="reel-item" *ngFor="let video of videos; let i = index" #reelItem>
-    <video
-      #videoPlayer
-      [src]="video.url"
-      playsinline
-      webkit-playsinline
-      muted
-      loop
-      preload="metadata"
-      (click)="togglePlay(i)"
-    ></video>
+<div class="reels-wrapper" (click)="toggleSound()">
+  <div class="reels-container" #container>
+    <div class="reel" *ngFor="let video of videos; let i = index">
+      <video
+        #videoPlayer
+        [src]="video.url"
+        playsinline
+        webkit-playsinline
+        muted
+        loop
+      ></video>
 
-    <!-- Loader -->
-    <div class="loader" *ngIf="video.isBuffering"></div>
-
-    <!-- Title -->
-    <div class="title">
-      {{ video.title }}
+      <!-- Loader -->
+      <div class="loader" *ngIf="video.isBuffering"></div>
     </div>
   </div>
 </div>
