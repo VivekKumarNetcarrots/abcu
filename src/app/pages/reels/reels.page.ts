@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
 import { ReelItemComponent } from 'src/app/comps/reel-item/reel-item.component';
+import { AudioManagerService } from 'src/app/services/audio-manager';
 
 @Component({
   selector: 'app-reels',
@@ -9,5 +10,13 @@ import { ReelItemComponent } from 'src/app/comps/reel-item/reel-item.component';
   imports: [IonContent, ReelItemComponent],
 })
 export class ReelsPage {
-  constructor() {}
+  constructor(private audioManager: AudioManagerService) {}
+  ionViewWillEnter() {
+    this.audioManager.toggleMute();
+  }
+  ionViewWillLeave() {
+    console.log('Des:>>Vsking');
+    this.audioManager.pauseAll();
+    this.audioManager.forceMuteAll();
+  }
 }

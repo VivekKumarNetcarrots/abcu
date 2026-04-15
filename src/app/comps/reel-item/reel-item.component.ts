@@ -6,9 +6,12 @@ import {
   QueryList,
   AfterViewInit,
   OnDestroy,
+  OnChanges,
+  Input,
 } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { AudioManagerService } from 'src/app/services/audio-manager';
 
 @Component({
   selector: 'app-reel-item',
@@ -17,7 +20,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./reel-item.component.scss'],
   imports: [CommonModule],
 })
-export class ReelItemComponent implements AfterViewInit, OnDestroy {
+export class ReelItemComponent implements AfterViewInit {
   @ViewChild('container', { static: true }) container!: ElementRef;
   @ViewChildren('videoPlayer') videoPlayers!: QueryList<ElementRef>;
 
@@ -39,18 +42,10 @@ export class ReelItemComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
-  constructor(private gestureCtrl: GestureController) {}
-  ngOnDestroy() {
-    const videos = this.videoPlayers.toArray();
-
-    videos.forEach((v, i) => {
-      const vid = v.nativeElement;
-      try {
-        vid.pause();
-        vid.currentTime = 0;
-      } catch (error) {}
-    });
-  }
+  constructor(
+    private gestureCtrl: GestureController,
+    private audioManager: AudioManagerService
+  ) {}
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -63,7 +58,7 @@ export class ReelItemComponent implements AfterViewInit, OnDestroy {
   attachVideoEvents() {
     this.videoPlayers.forEach((videoRef, index) => {
       const video = videoRef.nativeElement;
-
+      this.audioManager.register(video);
       video.onwaiting = () => (this.videos[index].isBuffering = true);
       video.onplaying = () => (this.videos[index].isBuffering = false);
       video.oncanplay = () => (this.videos[index].isBuffering = false);
@@ -78,7 +73,8 @@ export class ReelItemComponent implements AfterViewInit, OnDestroy {
 
       if (i === this.currentIndex) {
         vid.muted = false;
-        vid.play().catch(() => {});
+        this.audioManager.play(vid);
+        // vid.play().catch(() => {});
         this.preloadNext(i);
       } else {
         vid.pause();
@@ -97,13 +93,14 @@ export class ReelItemComponent implements AfterViewInit, OnDestroy {
   }
 
   toggleSound() {
-    const video = this.videoPlayers.toArray()[this.currentIndex].nativeElement;
-    video.muted = !video.muted;
-    if (video.muted) {
-      video.pause();
-      return;
-    }
-    video.play().catch(() => {});
+    this.audioManager.toggleMute();
+    // const video = this.videoPlayers.toArray()[this.currentIndex].nativeElement;
+    // video.muted = !video.muted;
+    // if (video.muted) {
+    //   video.pause();
+    //   return;
+    // }
+    // video.play().catch(() => {});
   }
 
   setupGesture() {
