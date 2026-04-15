@@ -5,6 +5,7 @@ import {
   ViewChildren,
   QueryList,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -16,7 +17,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./reel-item.component.scss'],
   imports: [CommonModule],
 })
-export class ReelItemComponent implements AfterViewInit {
+export class ReelItemComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
   @ViewChildren('videoPlayer') videoPlayers!: QueryList<ElementRef>;
 
@@ -39,6 +40,17 @@ export class ReelItemComponent implements AfterViewInit {
   ];
 
   constructor(private gestureCtrl: GestureController) {}
+  ngOnDestroy() {
+    const videos = this.videoPlayers.toArray();
+
+    videos.forEach((v, i) => {
+      const vid = v.nativeElement;
+      try {
+        vid.pause();
+        vid.currentTime = 0;
+      } catch (error) {}
+    });
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
