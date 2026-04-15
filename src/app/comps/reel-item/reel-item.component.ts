@@ -48,7 +48,6 @@ export class ReelItemComponent implements AfterViewInit {
     });
   }
 
-  // 🎥 Attach loader events
   attachVideoEvents() {
     this.videoPlayers.forEach((videoRef, index) => {
       const video = videoRef.nativeElement;
@@ -59,7 +58,6 @@ export class ReelItemComponent implements AfterViewInit {
     });
   }
 
-  // ▶️ Play current video
   playCurrent() {
     const videos = this.videoPlayers.toArray();
 
@@ -77,7 +75,6 @@ export class ReelItemComponent implements AfterViewInit {
     });
   }
 
-  // ⚡ Preload next video
   preloadNext(index: number) {
     const next = this.videoPlayers.toArray()[index + 1];
     if (next) {
@@ -87,7 +84,6 @@ export class ReelItemComponent implements AfterViewInit {
     }
   }
 
-  // 👆 Tap → unmute
   toggleSound() {
     const video = this.videoPlayers.toArray()[this.currentIndex].nativeElement;
     video.muted = !video.muted;
@@ -98,7 +94,6 @@ export class ReelItemComponent implements AfterViewInit {
     video.play().catch(() => {});
   }
 
-  // 👇 Swipe gesture (vertical)
   setupGesture() {
     const gesture = this.gestureCtrl.create({
       el: this.container.nativeElement,
@@ -118,19 +113,16 @@ export class ReelItemComponent implements AfterViewInit {
     gesture.enable();
   }
 
-  // ⬆️ Next reel
   next() {
     if (this.currentIndex >= this.videos.length - 1) return;
     this.slideTo(this.currentIndex + 1);
   }
 
-  // ⬇️ Previous reel
   prev() {
     if (this.currentIndex <= 0) return;
     this.slideTo(this.currentIndex - 1);
   }
 
-  // 🎬 Slide animation
   slideTo(index: number) {
     this.isAnimating = true;
     this.currentIndex = index;

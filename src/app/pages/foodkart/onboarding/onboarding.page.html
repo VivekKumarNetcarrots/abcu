@@ -1,0 +1,38 @@
+<ion-content class="onboarding">
+  <swiper-container
+    direction="horizontal"
+    css-mode="false"
+    slides-per-view="1"
+    speed="500"
+    effect="creative"
+    grab-cursor="true"
+    (swiperslidechange)="onSlideChange($event)"
+    #swiperEl
+  >
+    <swiper-slide *ngFor="let slide of slides; let i = index">
+      <div class="slide" [class.active]="i === activeIndex">
+        <img [src]="slide.image" />
+
+        <h2>{{ slide.title }}</h2>
+
+        <p>{{ slide.description }}</p>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- DOTS -->
+  <div class="dots">
+    <span
+      *ngFor="let s of slides; let i = index"
+      [class.active]="i === activeIndex"
+    ></span>
+  </div>
+
+  <!-- BUTTON -->
+  <ion-button expand="block" class="next-btn" (click)="next(swiperEl)">
+    {{ activeIndex === slides.length - 1 ? 'GET STARTED' : 'NEXT' }}
+  </ion-button>
+
+  <!-- SKIP -->
+  <div class="skip" (click)="skip()">Skip</div>
+</ion-content>

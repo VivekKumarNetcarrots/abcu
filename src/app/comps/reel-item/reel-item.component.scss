@@ -2,6 +2,7 @@
   height: 100vh;
   overflow: hidden;
   position: relative;
+  scrollbar-width: none;
 }
 
 .reels-container {
@@ -20,7 +21,6 @@ video {
   object-fit: cover;
 }
 
-/* Loader */
 .loader {
   position: absolute;
   top: 50%;
