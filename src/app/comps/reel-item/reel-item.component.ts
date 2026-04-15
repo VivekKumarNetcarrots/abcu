@@ -5,9 +5,6 @@ import {
   ViewChildren,
   QueryList,
   AfterViewInit,
-  OnDestroy,
-  OnChanges,
-  Input,
 } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -94,13 +91,6 @@ export class ReelItemComponent implements AfterViewInit {
 
   toggleSound() {
     this.audioManager.toggleMute();
-    // const video = this.videoPlayers.toArray()[this.currentIndex].nativeElement;
-    // video.muted = !video.muted;
-    // if (video.muted) {
-    //   video.pause();
-    //   return;
-    // }
-    // video.play().catch(() => {});
   }
 
   setupGesture() {

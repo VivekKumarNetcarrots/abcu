@@ -7,6 +7,17 @@ export const routes: Routes = [
   },
   {
     path: 'onboarding',
-    loadComponent: () => import('./pages/foodkart/onboarding/onboarding.page').then( m => m.OnboardingPage)
+    loadComponent: () =>
+      import('./pages/stylekart/onboarding/onboarding.page').then(
+        (m) => m.OnboardingPage
+      ),
+  },
+  {
+    path: 'start',
+    loadComponent: () => import('./pages/stylekart/start/start.page').then( m => m.StartPage)
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('./pages/stylekart/home/home.page').then( m => m.HomePage)
   },
 ];

@@ -8,7 +8,7 @@ export class AudioManagerService {
   private isMuted = true;
 
   register(video: HTMLVideoElement) {
-    video.muted = false; //this.isMuted;
+    video.muted = false;
   }
 
   play(video: HTMLVideoElement) {
@@ -18,7 +18,7 @@ export class AudioManagerService {
 
     this.currentVideo = video;
 
-    video.muted = false; //this.isMuted;
+    video.muted = false;
 
     video.play().catch(() => {});
   }

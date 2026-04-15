@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonButton } from '@ionic/angular/standalone';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { NavController } from '@ionic/angular';
 
 interface Slide {
   title: string;
@@ -22,6 +23,8 @@ export class OnboardingPage implements OnInit {
   slides: Slide[] = [];
   activeIndex = 0;
 
+  constructor(private navC: NavController) {}
+
   ngOnInit() {
     this.loadSlides();
     this.preloadImages();
@@ -30,20 +33,20 @@ export class OnboardingPage implements OnInit {
   loadSlides() {
     this.slides = [
       {
-        title: 'Order from choosen chef',
+        title: 'Order from choosen provider',
         description:
-          'Get all your loved foods in one once place, you just place the order we do the rest',
+          'Get all your loved things in one once place, you just place the order we do the rest',
         image: '/assets/images/image1.png',
       },
       {
         title: 'Fast Delivery',
-        description: 'Get your food delivered at lightning speed',
+        description: 'Get your things delivered at lightning speed',
         image: '/assets/images/image2.png',
       },
       {
         title: 'Live Tracking',
         description: 'Track your order in real time',
-        image: '/assets/images/tic-tac.png',
+        image: '/assets/images/image3.png',
       },
     ];
   }
@@ -67,10 +70,12 @@ export class OnboardingPage implements OnInit {
       swiper.slideNext();
     } else {
       console.log('Go to Home');
+      this.navC.navigateRoot('/start');
     }
   }
 
   skip() {
     console.log('Skip onboarding');
+    this.navC.navigateRoot('/home');
   }
 }
