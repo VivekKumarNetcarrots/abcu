@@ -17,6 +17,7 @@ import {
 } from '@ionic/angular/standalone';
 import { TicTacComponent } from '../tic-tac/tic-tac.component';
 import { LuckyNumberComponent } from '../lucky-number/lucky-number.component';
+import { FortuneWheelComponent } from '../fortune-wheel/fortune-wheel.component';
 
 @Component({
   selector: 'app-games-container',
@@ -47,7 +48,7 @@ export class GamesContainerComponent {
     {
       name: 'Tic Tac',
       desc: 'The most popular mind game.',
-      img: '/assets/images/tic-tac.png',
+      img: '/assets/gifs/tic_tac.gif',
       url: '/tic-tic/',
       component: TicTacComponent,
       id: 0,
@@ -59,6 +60,14 @@ export class GamesContainerComponent {
       url: '/lucky number/',
       component: LuckyNumberComponent,
       id: 1,
+    },
+    {
+      name: 'Fortune Wheel',
+      desc: 'Chance to win big with luck.',
+      img: '/assets/gifs/fortune_wheel.gif',
+      url: '/fortune wheel/',
+      component: FortuneWheelComponent,
+      id: 2,
     },
   ];
 
