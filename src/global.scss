@@ -39,7 +39,9 @@
 * {
   -webkit-tap-highlight-color: transparent;
 }
-
+ion-toast.app-toast {
+  z-index: 99999 !important;
+}
 #splash-screen {
   position: fixed;
   top: 0;

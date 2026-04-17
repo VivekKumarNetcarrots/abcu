@@ -27,6 +27,7 @@ export class Util {
       duration: 2000,
       position: 'top',
       color: 'primary',
+      cssClass: 'app-toast',
     });
     (await toast).present();
   }
