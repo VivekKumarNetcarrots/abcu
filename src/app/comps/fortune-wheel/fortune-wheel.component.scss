@@ -6,14 +6,11 @@
   align-items: center;
 
   background: radial-gradient(circle at center, #111, #000);
-
   perspective: 1000px;
 }
 
 canvas {
   transform: rotateX(10deg) scale(1.05);
-  transition: transform 0.3s ease;
-
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.15),
     0 0 60px rgba(255, 0, 150, 0.3);
@@ -23,6 +20,4 @@ ion-button {
   margin-top: 20px;
   --background: linear-gradient(45deg, #ff006e, #8338ec);
   --border-radius: 12px;
-  font-weight: bold;
-  letter-spacing: 1px;
 }

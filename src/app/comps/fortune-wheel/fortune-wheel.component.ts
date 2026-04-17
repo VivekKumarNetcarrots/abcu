@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { IonButton } from '@ionic/angular/standalone';
 import confetti from 'canvas-confetti';
+import { Util } from 'src/app/services/util';
 
 @Component({
   selector: 'app-fortune-wheel',
@@ -15,48 +16,51 @@ export class FortuneWheelComponent implements AfterViewInit {
   ctx!: CanvasRenderingContext2D;
 
   segments = ['100', '200', '300', '400', '500', '600', '700', 'JACKPOT'];
-  winningIndex = 0;
-  startAngle = 0;
-  arc = Math.PI / (this.segments.length / 2);
 
-  isSpinning = false;
+  winningIndex = 0;
+
+  startAngle = 0;
   targetAngle = 0;
 
-  // 🔊 AUDIO
+  isSpinning = false;
+
   spinAudio = new Audio('assets/sounds/spin.mp3');
   tickAudio = new Audio('assets/sounds/tick.mp3');
 
   lastTickIndex = -1;
-  bounceBack = false;
+
+  constructor(private util: Util) {}
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d')!;
     this.draw();
   }
 
-  // 🎨 DRAW 3D WHEEL
   draw() {
     const ctx = this.ctx;
     const cx = 150;
     const cy = 150;
     const radius = 140;
+    const outerRadius = 150;
+    const arc = (2 * Math.PI) / this.segments.length;
 
     ctx.clearRect(0, 0, 300, 300);
 
-    // 🪙 OUTER METAL RING
-    const rimGradient = ctx.createRadialGradient(cx, cy, 120, cx, cy, 150);
-    rimGradient.addColorStop(0, '#444');
-    rimGradient.addColorStop(0.5, '#999');
-    rimGradient.addColorStop(1, '#222');
+    // Rim
+    const rim = ctx.createRadialGradient(cx, cy, 120, cx, cy, outerRadius);
+    rim.addColorStop(0, '#444');
+    rim.addColorStop(0.5, '#999');
+    rim.addColorStop(1, '#222');
 
     ctx.beginPath();
-    ctx.arc(cx, cy, 150, 0, Math.PI * 2);
-    ctx.fillStyle = rimGradient;
+    ctx.arc(cx, cy, outerRadius, 0, Math.PI * 2);
+    ctx.fillStyle = rim;
     ctx.fill();
 
-    // 🎡 SEGMENTS
+    // Segments
     for (let i = 0; i < this.segments.length; i++) {
-      const angle = this.startAngle + i * this.arc;
+      const angle = this.startAngle + i * arc;
+      const isWinner = !this.isSpinning && i === this.winningIndex;
 
       const grad = ctx.createLinearGradient(0, 0, 300, 300);
       grad.addColorStop(0, this.getColor(i));
@@ -64,49 +68,53 @@ export class FortuneWheelComponent implements AfterViewInit {
 
       ctx.beginPath();
       ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, angle, angle + this.arc);
+      ctx.arc(cx, cy, radius, angle, angle + arc);
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // edge shine
-      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-      ctx.lineWidth = 2;
+      if (isWinner) {
+        ctx.save();
+        ctx.shadowColor = '#FFD700';
+        ctx.shadowBlur = 30;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      ctx.strokeStyle = isWinner
+        ? 'rgba(255,215,0,0.9)'
+        : 'rgba(255,255,255,0.2)';
+      ctx.lineWidth = isWinner ? 4 : 2;
       ctx.stroke();
 
-      // text
+      // Text
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(angle + this.arc / 2);
+      ctx.rotate(angle + arc / 2);
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold 14px sans-serif';
+      ctx.font = isWinner ? 'bold 16px sans-serif' : 'bold 14px sans-serif';
       ctx.fillText(this.segments[i], radius - 20, 5);
       ctx.restore();
     }
 
-    // 💡 LIGHT SWEEP
-    const light = ctx.createLinearGradient(0, 0, 300, 0);
-    light.addColorStop(0, 'transparent');
-    light.addColorStop(0.5, 'rgba(255,255,255,0.15)');
-    light.addColorStop(1, 'transparent');
-
-    ctx.fillStyle = light;
-    ctx.fillRect(0, 0, 300, 300);
-
-    // 🔘 CENTER HUB
-    const hubGrad = ctx.createRadialGradient(cx, cy, 5, cx, cy, 25);
-    hubGrad.addColorStop(0, '#fff');
-    hubGrad.addColorStop(1, '#666');
+    // Center hub
+    const hub = ctx.createRadialGradient(cx, cy, 5, cx, cy, 25);
+    hub.addColorStop(0, '#fff');
+    hub.addColorStop(1, '#666');
 
     ctx.beginPath();
     ctx.arc(cx, cy, 20, 0, Math.PI * 2);
-    ctx.fillStyle = hubGrad;
+    ctx.fillStyle = hub;
     ctx.fill();
 
-    // 🔺 POINTER (GLOW)
+    // ✅ PERFECTLY ALIGNED POINTER (TOP CENTER)
+    const pointerOffset = 5;
+    const pointerHeight = 30;
+    const pointerTop = cy - outerRadius;
+
     ctx.beginPath();
-    ctx.moveTo(cx - 12, 5);
-    ctx.lineTo(cx + 12, 5);
-    ctx.lineTo(cx, 35);
+    ctx.moveTo(cx - 12, pointerTop + pointerOffset);
+    ctx.lineTo(cx + 12, pointerTop + pointerOffset);
+    ctx.lineTo(cx, pointerTop + pointerOffset + pointerHeight);
     ctx.fillStyle = '#ff006e';
     ctx.shadowColor = '#ff006e';
     ctx.shadowBlur = 15;
@@ -115,7 +123,7 @@ export class FortuneWheelComponent implements AfterViewInit {
   }
 
   getColor(i: number) {
-    const palette = [
+    const colors = [
       '#ff006e',
       '#3a86ff',
       '#ffbe0b',
@@ -125,82 +133,60 @@ export class FortuneWheelComponent implements AfterViewInit {
       '#118ab2',
       '#ffd166',
     ];
-    return palette[i % palette.length];
+    return colors[i % colors.length];
   }
 
-  // 🎯 SPIN
-  // spin() {
-  //   if (this.isSpinning) return;
-
-  //   this.isSpinning = true;
-  //   this.bounceBack = false;
-
-  //   const winningIndex = Math.floor(Math.random() * this.segments.length);
-
-  //   const rotations = 6;
-  //   const target =
-  //     rotations * 2 * Math.PI +
-  //     (this.segments.length - winningIndex) * this.arc;
-
-  //   this.targetAngle = this.startAngle + target;
-
-  //   // 🔊 START SOUND
-  //   this.spinAudio.loop = true;
-  //   this.spinAudio.currentTime = 0;
-  //   this.spinAudio.play();
-
-  //   this.animate();
-  // }
   spin() {
     if (this.isSpinning) return;
 
     this.isSpinning = true;
-    this.bounceBack = false;
 
-    // 🎯 FIXED WINNER (you can hardcode or random)
+    // Random or test
     // this.winningIndex = Math.floor(Math.random() * this.segments.length);
-    this.winningIndex = 4; // 👉 force "500" for testing
+    this.winningIndex = 0;
 
     const rotations = 6;
-
-    // 🎯 calculate exact landing angle
     const segmentAngle = (2 * Math.PI) / this.segments.length;
-    const tweak = 0.01; // try between 0.005 – 0.02
-    const centerOffset = segmentAngle / 2;
-    const target =
-      rotations * 2 * Math.PI +
-      (this.segments.length - this.winningIndex) * segmentAngle -
-      centerOffset +
-      tweak;
-    // const target =
-    //   rotations * 2 * Math.PI +
-    //   (this.segments.length - this.winningIndex) * segmentAngle;
 
-    this.targetAngle = this.startAngle + target;
+    const targetSegmentAngle =
+      this.winningIndex * segmentAngle + segmentAngle / 2;
 
-    // 🔊 start sound
-    this.spinAudio.loop = true;
+    // const pointerAngle = Math.PI / 2;
+    const pointerAngle = -Math.PI / 2;
+
+    const current = this.startAngle % (2 * Math.PI);
+
+    let delta = pointerAngle - targetSegmentAngle - current;
+
+    delta = (delta + 2 * Math.PI) % (2 * Math.PI);
+    delta += rotations * 2 * Math.PI;
+
+    this.targetAngle = this.startAngle + delta;
+
     this.spinAudio.currentTime = 0;
     this.spinAudio.play();
 
     this.animate();
   }
-  // ⚡ ANIMATION + PHYSICS
+
   animate() {
     const diff = this.targetAngle - this.startAngle;
 
-    this.startAngle += diff * 0.08;
+    let speed = 0.08;
+
+    if (diff < 1) speed = 0.05;
+    if (diff < 0.5) speed = 0.03;
+    if (diff < 0.2) speed = 0.015;
+    if (diff < 0.1) speed = 0.008;
+
+    this.startAngle += diff * speed;
 
     this.handleTick();
     this.draw();
 
-    // 🪩 bounce
-    if (diff < 0.01 && !this.bounceBack) {
-      this.bounceBack = true;
-      this.targetAngle += 0.05;
-    }
+    if (Math.abs(diff) < 0.002) {
+      this.startAngle = this.targetAngle;
 
-    if (this.bounceBack && Math.abs(diff) < 0.002) {
       this.spinAudio.pause();
       this.spinAudio.currentTime = 0;
 
@@ -212,12 +198,14 @@ export class FortuneWheelComponent implements AfterViewInit {
     requestAnimationFrame(() => this.animate());
   }
 
-  // 🔊 TICK SOUND
   handleTick() {
-    const degrees = (this.startAngle * 180) / Math.PI;
-    const segmentAngle = 360 / this.segments.length;
+    const segmentAngle = (2 * Math.PI) / this.segments.length;
 
-    const index = Math.floor((degrees % 360) / segmentAngle);
+    let adjusted = (-Math.PI / 2 - this.startAngle) % (2 * Math.PI);
+
+    if (adjusted < 0) adjusted += 2 * Math.PI;
+
+    const index = Math.floor(adjusted / segmentAngle);
 
     if (index !== this.lastTickIndex) {
       this.lastTickIndex = index;
@@ -231,35 +219,20 @@ export class FortuneWheelComponent implements AfterViewInit {
     }
   }
 
-  // 🎉 FINISH
-  // finish() {
-  //   const deg = (this.startAngle * 180) / Math.PI + 90;
-
-  //   const index = Math.floor(
-  //     (360 - (deg % 360)) / (360 / this.segments.length)
-  //   );
-
-  //   const result = this.segments[index];
-  //   // this.segments[index];
-
-  //   confetti({
-  //     particleCount: 250,
-  //     spread: 120,
-  //     origin: { y: 0.6 },
-  //   });
-
-  //   if (result === 'JACKPOT') {
-  //     setTimeout(() => {
-  //       new Audio('assets/sounds/jackpot.mp3').play();
-  //     }, 200);
-  //   }
-
-  //   setTimeout(() => {
-  //     alert(`🎰 You won: ${result}`);
-  //   }, 400);
-  // }
   finish() {
-    const result = this.segments[this.winningIndex];
+    const segmentAngle = (2 * Math.PI) / this.segments.length;
+
+    // Normalize angle so 0 = pointer (top)
+    let adjusted = (-Math.PI / 2 - this.startAngle) % (2 * Math.PI);
+    if (adjusted < 0) adjusted += 2 * Math.PI;
+
+    const actualIndex = Math.floor(adjusted / segmentAngle);
+
+    this.winningIndex = actualIndex;
+
+    const result = this.segments[actualIndex];
+
+    console.log('FINAL INDEX:', actualIndex);
 
     confetti({
       particleCount: 250,
@@ -274,7 +247,7 @@ export class FortuneWheelComponent implements AfterViewInit {
     }
 
     setTimeout(() => {
-      alert(`🎰 You won: ${result}`);
-    }, 400);
+      this.util.showAlert({ message: `🎰 You won: ${result}` });
+    }, 40);
   }
 }
