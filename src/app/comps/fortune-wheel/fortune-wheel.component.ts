@@ -219,8 +219,6 @@ export class FortuneWheelComponent implements AfterViewInit {
   }
 
   async finish() {
-    await this.platform.ready();
-    await this.util.showToast({ message: 'Congratulations!!!' });
     const segmentAngle = (2 * Math.PI) / this.segments.length;
 
     let adjusted = (-Math.PI / 2 - this.startAngle) % (2 * Math.PI);
@@ -249,5 +247,9 @@ export class FortuneWheelComponent implements AfterViewInit {
     setTimeout(() => {
       this.util.showAlert({ message: `🎰 You won: ${result}` });
     }, 40);
+    setTimeout(async () => {
+      await this.platform.ready();
+      this.util.showToast({ message: 'Congratulations!!!' });
+    }, 45);
   }
 }
