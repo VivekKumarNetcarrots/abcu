@@ -220,7 +220,7 @@ export class FortuneWheelComponent implements AfterViewInit {
 
   async finish() {
     await this.platform.ready();
-    this.util.showToast({ message: 'Congratulations!!!' });
+    await this.util.showToast({ message: 'Congratulations!!!' });
     const segmentAngle = (2 * Math.PI) / this.segments.length;
 
     let adjusted = (-Math.PI / 2 - this.startAngle) % (2 * Math.PI);
