@@ -244,12 +244,12 @@ export class FortuneWheelComponent implements AfterViewInit {
       }, 200);
     }
 
+    setTimeout(async () => {
+      // await this.platform.ready();
+      this.util.showToast({ message: 'Congratulations!!!' });
+    }, 40);
     setTimeout(() => {
       this.util.showAlert({ message: `🎰 You won: ${result}` });
-    }, 40);
-    setTimeout(async () => {
-      await this.platform.ready();
-      this.util.showToast({ message: 'Congratulations!!!' });
     }, 45);
   }
 }
