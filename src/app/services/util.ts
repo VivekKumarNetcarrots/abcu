@@ -20,7 +20,7 @@ export class Util {
     await alert.present();
   }
   async showToast({ message = '' }) {
-    const toast = this.toastController.create({
+    const toast = await this.toastController.create({
       message: message,
       duration: 2000,
       position: 'top',
