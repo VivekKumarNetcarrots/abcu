@@ -92,7 +92,7 @@ export class FortuneWheelComponent implements AfterViewInit {
       ctx.rotate(angle + arc / 2);
       ctx.fillStyle = '#fff';
       ctx.font = isWinner ? 'bold 16px sans-serif' : 'bold 14px sans-serif';
-      ctx.fillText(this.segments[i], radius - 20, 5);
+      ctx.fillText(this.segments[i], radius - 70, 5);
       ctx.restore();
     }
 
@@ -106,7 +106,6 @@ export class FortuneWheelComponent implements AfterViewInit {
     ctx.fillStyle = hub;
     ctx.fill();
 
-    // ✅ PERFECTLY ALIGNED POINTER (TOP CENTER)
     const pointerOffset = 5;
     const pointerHeight = 30;
     const pointerTop = cy - outerRadius;
@@ -222,7 +221,6 @@ export class FortuneWheelComponent implements AfterViewInit {
   finish() {
     const segmentAngle = (2 * Math.PI) / this.segments.length;
 
-    // Normalize angle so 0 = pointer (top)
     let adjusted = (-Math.PI / 2 - this.startAngle) % (2 * Math.PI);
     if (adjusted < 0) adjusted += 2 * Math.PI;
 
