@@ -22,7 +22,6 @@ export class Util {
   async showToast({ message = '' }) {
     const toast = this.toastController.create({
       message: message,
-      mode: 'ios',
       duration: 2000,
       position: 'top',
       color: 'primary',
