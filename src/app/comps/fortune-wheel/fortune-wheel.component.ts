@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { IonButton, Platform } from '@ionic/angular/standalone';
+import { IonButton } from '@ionic/angular/standalone';
 import confetti from 'canvas-confetti';
 import { Util } from 'src/app/services/util';
 
@@ -29,7 +29,7 @@ export class FortuneWheelComponent implements AfterViewInit {
 
   lastTickIndex = -1;
 
-  constructor(private util: Util, private platform: Platform) {}
+  constructor(private util: Util) {}
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d')!;
@@ -218,7 +218,7 @@ export class FortuneWheelComponent implements AfterViewInit {
     }
   }
 
-  async finish() {
+  finish() {
     const segmentAngle = (2 * Math.PI) / this.segments.length;
 
     let adjusted = (-Math.PI / 2 - this.startAngle) % (2 * Math.PI);
@@ -244,8 +244,7 @@ export class FortuneWheelComponent implements AfterViewInit {
       }, 200);
     }
 
-    setTimeout(async () => {
-      // await this.platform.ready();
+    setTimeout(() => {
       this.util.showToast({ message: 'Congratulations!!!' });
     }, 40);
     setTimeout(() => {
