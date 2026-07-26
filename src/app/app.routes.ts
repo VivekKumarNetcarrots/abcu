@@ -14,10 +14,12 @@ export const routes: Routes = [
   },
   {
     path: 'start',
-    loadComponent: () => import('./pages/stylekart/start/start.page').then( m => m.StartPage)
+    loadComponent: () =>
+      import('./pages/stylekart/start/start.page').then((m) => m.StartPage),
   },
   {
     path: 'home',
-    loadComponent: () => import('./pages/stylekart/home/home.page').then( m => m.HomePage)
+    loadComponent: () =>
+      import('./pages/stylekart/home/home.page').then((m) => m.HomePage),
   },
 ];

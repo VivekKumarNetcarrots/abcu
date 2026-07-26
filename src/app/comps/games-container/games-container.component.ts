@@ -53,14 +53,14 @@ export class GamesContainerComponent {
       component: TicTacComponent,
       id: 0,
     },
-    {
-      name: 'Lucky Number',
-      desc: 'Know your luck.',
-      img: '/assets/gifs/num-rolls.gif',
-      url: '/lucky number/',
-      component: LuckyNumberComponent,
-      id: 1,
-    },
+    // {
+    //   name: 'Lucky Number',
+    //   desc: 'Know your luck.',
+    //   img: '/assets/gifs/num-rolls.gif',
+    //   url: '/lucky number/',
+    //   component: LuckyNumberComponent,
+    //   id: 1,
+    // },
     {
       name: 'Fortune Wheel',
       desc: 'Chance to win big with luck.',

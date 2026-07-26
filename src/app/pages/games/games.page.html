@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Games</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="selectedGame">
       <ion-button shape="round" (click)="selectedGame = null;">
         <ion-icon name="flower-outline"></ion-icon>
       </ion-button>
