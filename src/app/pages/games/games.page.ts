@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   IonContent,
   IonHeader,
@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-games',
   templateUrl: 'games.page.html',
   styleUrls: ['games.page.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
     IonHeader,
