@@ -18,6 +18,9 @@ import {
 import { TicTacComponent } from '../tic-tac/tic-tac.component';
 import { LuckyNumberComponent } from '../lucky-number/lucky-number.component';
 import { FortuneWheelComponent } from '../fortune-wheel/fortune-wheel.component';
+import { AboutComponent } from '../about/about.component';
+import { PrivacyComponent } from '../privacy/privacy.component';
+import { ContactComponent } from '../contact/contact.component';
 
 @Component({
   selector: 'app-games-container',
@@ -68,6 +71,30 @@ export class GamesContainerComponent {
       url: '/fortune wheel/',
       component: FortuneWheelComponent,
       id: 2,
+    },
+    {
+      name: 'Contact Us',
+      desc: 'Contact Us 24x7.',
+      img: '/assets/gifs/contact.gif',
+      url: '/fortune wheel/',
+      component: ContactComponent,
+      id: 3,
+    },
+    {
+      name: 'Privacy Policy',
+      desc: 'Know Privacy Policy.',
+      img: '/assets/gifs/privacy.gif',
+      url: '/fortune wheel/',
+      component: PrivacyComponent,
+      id: 4,
+    },
+    {
+      name: 'About US',
+      desc: 'Know about us.',
+      img: '/assets/gifs/about.gif',
+      url: '/fortune wheel/',
+      component: AboutComponent,
+      id: 5,
     },
   ];
 

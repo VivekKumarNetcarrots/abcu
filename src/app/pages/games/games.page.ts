@@ -10,7 +10,7 @@ import {
 } from '@ionic/angular/standalone';
 import { GamesContainerComponent } from 'src/app/comps/games-container/games-container.component';
 import { addIcons } from 'ionicons';
-import { flowerOutline } from 'ionicons/icons';
+import { flowerOutline, menu } from 'ionicons/icons';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 export class GamesPage {
   selectedGame: any;
   constructor() {
-    addIcons({ flowerOutline });
+    addIcons({ menu });
   }
 
   onGameSelected(event: any) {
