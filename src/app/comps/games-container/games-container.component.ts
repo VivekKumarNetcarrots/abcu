@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent,
@@ -27,6 +32,7 @@ import { ContactComponent } from '../contact/contact.component';
   templateUrl: './games-container.component.html',
   styleUrls: ['./games-container.component.scss'],
   standalone: true,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     FormsModule,
     CommonModule,
