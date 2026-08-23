@@ -1,15 +1,18 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Games</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="start">
       <ion-button shape="round" (click)="selectedGame = null;">
-        <ion-icon name="menu"></ion-icon>
+        <ion-icon name="home"></ion-icon>
       </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" id="main-content">
   <ng-container *ngIf="!selectedGame; else gameView">
     <app-games-container
       (onGameSelected)="onGameSelected($event)"
@@ -22,3 +25,23 @@
   <!-- <amp-auto-ads type="adsense" data-ad-client="ca-pub-1996376294595368">
   </amp-auto-ads> -->
 </ion-content>
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding"
+    ><ion-list>
+      <ion-item *ngFor="let g of gamesList" (click)="onMenuSelect(g)">
+        <ion-thumbnail slot="start">
+          <img [alt]="g.name" [src]="g.img" />
+        </ion-thumbnail>
+        <ion-note class="game-note">
+          <ion-label color="primary">{{ g.name }}</ion-label>
+          <ion-text> {{ g.desc }} </ion-text>
+        </ion-note>
+      </ion-item>
+    </ion-list></ion-content
+  >
+</ion-menu>
