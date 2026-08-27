@@ -13,7 +13,7 @@ import {
 } from '@ionic/angular/standalone';
 import { GamesContainerComponent } from 'src/app/comps/games-container/games-container.component';
 import { addIcons } from 'ionicons';
-import { flowerOutline, home, menu } from 'ionicons/icons';
+import { home, menu } from 'ionicons/icons';
 import { CommonModule } from '@angular/common';
 import { ContactComponent } from 'src/app/comps/contact/contact.component';
 import { PrivacyComponent } from 'src/app/comps/privacy/privacy.component';

@@ -1,9 +1,16 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { IonButton } from '@ionic/angular/standalone';
 import confetti from 'canvas-confetti';
 import { Util } from 'src/app/services/util';
 
 @Component({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   selector: 'app-fortune-wheel',
   templateUrl: './fortune-wheel.component.html',
   styleUrls: ['./fortune-wheel.component.scss'],

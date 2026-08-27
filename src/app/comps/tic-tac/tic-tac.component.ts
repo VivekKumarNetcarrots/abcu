@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { TicTac } from 'src/app/services/tic-tac';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +14,7 @@ import {
 } from '@ionic/angular/standalone';
 
 @Component({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   selector: 'app-tic-tac',
   templateUrl: './tic-tac.component.html',
   styleUrls: ['./tic-tac.component.scss'],
