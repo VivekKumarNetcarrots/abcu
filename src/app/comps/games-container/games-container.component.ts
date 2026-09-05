@@ -70,14 +70,14 @@ export class GamesContainerComponent {
     //   component: LuckyNumberComponent,
     //   id: 1,
     // },
-    {
-      name: 'Fortune Wheel',
-      desc: 'Chance to win big with luck.',
-      img: '/assets/gifs/fortune_wheel.gif',
-      url: '/fortune wheel/',
-      component: FortuneWheelComponent,
-      id: 2,
-    },
+    // {
+    //   name: 'Fortune Wheel',
+    //   desc: 'Chance to win big with luck.',
+    //   img: '/assets/gifs/fortune_wheel.gif',
+    //   url: '/fortune wheel/',
+    //   component: FortuneWheelComponent,
+    //   id: 2,
+    // },
     // {
     //   name: 'Contact Us',
     //   desc: 'Contact Us 24x7.',
